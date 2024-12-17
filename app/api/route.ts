@@ -30,17 +30,13 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({
-      status: 200,
       paymentIntent: paymentIntent.client_secret,
       publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
       customer: customer.id,
       ephemeralKey: ephemeralKey.secret,
     });
   } catch (error) {
-    console.error('ERROR: ', error);
-    return NextResponse.json({
-      status: 500,
-      error: error,
-    });
+    console.error('Internal Server Error: ', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
